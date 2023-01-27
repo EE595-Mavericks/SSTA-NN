@@ -1,11 +1,11 @@
 #include <cmath>
 #include <iostream>
 
-double cdf(double x, double mean, double stddev) {
+double cdf(double x, double mean = 0, double stddev = 1) {
     return 0.5 * (1.0 + std::erf((x - mean) / (stddev * std::sqrt(2.0))));
 }
 
-double pdf(double x, double mean, double stddev) {
+double pdf(double x, double mean = 0, double stddev = 1) {
     double exponent = -1.0 * std::pow(x - mean, 2.0) / (2.0 * std::pow(stddev, 2.0));
     return (1.0 / (stddev * std::sqrt(2.0 * M_PI))) * std::exp(exponent);
 }
