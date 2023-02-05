@@ -15,4 +15,4 @@ week2: normal_rv_max_three_moments.cpp
 
 
 clean:
-	rm -rf p1a.out p1b.out p1c.out p2_1.out p2_2.out *.csv *.jpg *.raw
+	rm -rf *.out
