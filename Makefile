@@ -1,5 +1,5 @@
 CC=g++
-INPUT=5 10 5 10
+INPUT=10 60 20 10
 
 all: week1 week2
 

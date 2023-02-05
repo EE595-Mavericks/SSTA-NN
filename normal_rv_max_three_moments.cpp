@@ -69,7 +69,10 @@ int main(int argc, char *argv[]) {
     double mean = 0.0;
     double variance = 0.0;
     double skewness = 0.0;
-    integral(-100, 100, 100000, mean, variance, skewness);
+
+    double left_integral_bound = min(mu1 - 10*pow(var1, 0.5), mu2 - 10*pow(var2, 0.5));
+    double right_integral_bound = max(mu1 + 10*pow(var1, 0.5), mu2 + 10*pow(var2, 0.5));
+    integral(left_integral_bound, right_integral_bound, 100000, mean, variance, skewness);
 
     cout << "mean = " << mean << endl;
     cout << "variance = " << variance << endl;
