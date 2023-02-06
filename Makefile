@@ -1,6 +1,6 @@
 CC=g++
-Normal_RV_INPUT=10 60 20 10
-Skew_RV_INPUT = 10 60 1 20 10 1
+Normal_RV_INPUT=8 100 12 10
+Skew_RV_INPUT = 8 100 1 12 10 1
 
 all: week1 week2 max_skew
 

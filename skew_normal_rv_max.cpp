@@ -91,8 +91,8 @@ int main(int argc, char *argv[]) {
     double left_integral_bound = min(muX - 10 * pow(varX, 0.5), muY - 10 * pow(varY, 0.5));
     double right_integral_bound = max(muX + 10 * pow(varX, 0.5), muY + 10 * pow(varY, 0.5));
 
-    cout << "left_integral_bound: " << left_integral_bound << endl;
-    cout << "right_integral_bound: " << right_integral_bound << endl;
+    // cout << "left_integral_bound: " << left_integral_bound << endl;
+    // cout << "right_integral_bound: " << right_integral_bound << endl;
 
     integral(left_integral_bound, right_integral_bound, 10000, mean, variance, skewness);
 
