@@ -37,6 +37,7 @@ void integral(double start, double end, double freq, double &mean, double &varia
         double one_y = 0.0;
         double square_y = 0.0;
         double cube_y = 0.0;
+        y = start;
 
         for (int j = 0; j < freq; j++) {
             f_gamma = 1 / (tau * sigmaX * sigmaY) * (
@@ -51,13 +52,13 @@ void integral(double start, double end, double freq, double &mean, double &varia
                     I(-DBL_MAX, muY, y) +
                     phi((x - muX) / sigma_x_r, (y - muY) / sigma_y_r) *
                     I(muX, DBL_MAX, x) *
-                    I(muY, -DBL_MAX, y)
+                    I(muY, DBL_MAX, y)
             );
 
             m = max(x, y);
             one_y += m * f_gamma * dy;
-            square_y = pow(m, 2) * f_gamma * dy;
-            cube_y = pow(m, 3) * f_gamma * dy;
+            square_y += pow(m, 2) * f_gamma * dy;
+            cube_y += pow(m, 3) * f_gamma * dy;
             y += dy;
         }
         one += one_y * dx;

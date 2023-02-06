@@ -1,8 +1,8 @@
 CC=g++
 INPUT=10 60 20 10
-skewness_INPUT = 10 60 0.5 20 10 0.5
+skewness_INPUT = 10 60 1 20 10 1
 
-all: week1 week2
+all: week1 week2 max_skew
 
 week1: normal_rv_max.cpp
 	@${CC} normal_rv_max.cpp -o normal_rv_max.out
