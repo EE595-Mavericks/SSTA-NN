@@ -2,7 +2,6 @@
 #include <string>
 #include <random>
 
-//yifan test
 using namespace std;
 
 int main()

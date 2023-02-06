@@ -34,3 +34,5 @@
 cmake-build-debug
 .idea
 CMakeLists.txt
+.vscode
+.DS_Store
