@@ -96,6 +96,11 @@ int main(int argc, char *argv[]) {
 
     integral(left_integral_bound, right_integral_bound, 10000, mean, variance, skewness);
 
+    cout << "For sum of X and Y: " << endl;
+    cout << "mean = " << muX + muY << endl;
+    cout << "variance = " << varX + varY << endl;
+
+    cout << "For maximum of X and Y: " << endl;
     cout << "mean = " << mean << endl;
     cout << "variance = " << variance << endl;
     cout << "skewness = " << skewness << endl;
