@@ -1,3 +1,6 @@
+#ifndef DISTRIBUTION_H
+#define DISTRIBUTION_H
+
 #include <cmath>
 #include <iostream>
 #include "float.h"
@@ -18,3 +21,5 @@ public:
     virtual double cdf(double x) = 0;
 
 };
+
+#endif

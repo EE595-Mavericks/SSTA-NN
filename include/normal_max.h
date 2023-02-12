@@ -1,3 +1,6 @@
+#ifndef NORMAL_MAX_H
+#define NORMAL_MAX_H
+
 #include "normal_rv.h"
 
 
@@ -17,4 +20,6 @@ public:
 
 };
 
+
+#endif
 

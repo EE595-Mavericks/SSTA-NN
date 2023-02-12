@@ -1,3 +1,6 @@
+#ifndef SKEWED_MAX_H
+#define SKEWED_MAX_H
+
 #include "distribution.h"
 
 class skewed_max : distribution {
@@ -22,3 +25,5 @@ private:
     double joint_pdf(double x, double y);
 
 };
+
+#endif
