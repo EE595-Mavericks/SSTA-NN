@@ -4,7 +4,7 @@
 #include "distribution.h"
 
 
-class normal_rv : distribution {
+class normal_rv : public distribution {
 
 public:
     normal_rv(double mean, double variance);

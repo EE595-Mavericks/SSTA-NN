@@ -1,15 +1,15 @@
 #ifndef SKEWED_MAX_H
 #define SKEWED_MAX_H
 
-#include "distribution.h"
+#include "skewed_rv.h"
 
-class skewed_max : distribution {
+class skewed_max : public distribution {
 
 public:
-    distribution *X;
-    distribution *Y;
+    skewed_rv *X;
+    skewed_rv *Y;
 
-    skewed_max(distribution *x, distribution *y);
+    skewed_max(skewed_rv *x, skewed_rv *y);
 
     double pdf(double z);
 

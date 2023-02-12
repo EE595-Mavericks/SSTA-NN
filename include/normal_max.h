@@ -4,7 +4,7 @@
 #include "normal_rv.h"
 
 
-class normal_max : distribution {
+class normal_max : public distribution {
 
 public:
     normal_rv *X;

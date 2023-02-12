@@ -2,7 +2,7 @@
 
 using namespace std;
 
-skewed_max::skewed_max(distribution *x, distribution *y) {
+skewed_max::skewed_max(skewed_rv *x, skewed_rv *y) {
     this->X = x;
     this->Y = y;
 }
