@@ -6,6 +6,7 @@ public:
     double mean;
     double variance;
     double stddev;
+    double skewness;
 
     distribution();
     distribution(double mean, double variance);
