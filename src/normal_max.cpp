@@ -1,5 +1,7 @@
 #include "normal_max.h"
 
+using namespace std;
+
 normal_max::normal_max(normal_rv *x, normal_rv *y) {
     this->X = x;
     this->Y = y;
@@ -13,9 +15,12 @@ double normal_max::cdf(double z) {
     return X->cdf(z) * Y->cdf(z);
 }
 
-void normal_max::cal(double start, double end, double freq) {
-    double step = (end - start) / freq;
-    double z = start;
+void normal_max::cal(double freq) {
+
+    double l_bound = max(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
+    double r_bound = max(X->mean + 10 * X->stddev, Y->mean + 10 * Y->stddev);
+    double step = (r_bound - l_bound) / freq;
+    double z = l_bound;
     double z_square_mean = 0.0;
     double z_cube_mean = 0.0;
 

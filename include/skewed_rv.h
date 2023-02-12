@@ -1,5 +1,5 @@
-#ifndef EE595_PROJ_SKEWED_RV_H
-#define EE595_PROJ_SKEWED_RV_H
+#ifndef SKEWED_RV_H
+#define SKEWED_RV_H
 
 #include "distribution.h"
 
@@ -15,4 +15,4 @@ public:
 };
 
 
-#endif //EE595_PROJ_SKEWED_RV_H
+#endif

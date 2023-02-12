@@ -48,7 +48,7 @@ double skewed_max::joint_pdf(double x, double y) {
 
 void skewed_max::cal(double freq) {
 
-    double l_bound = min(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
+    double l_bound = max(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
     double r_bound = max(X->mean + 10 * X->stddev, Y->mean + 10 * Y->stddev);
 
     double x = l_bound;

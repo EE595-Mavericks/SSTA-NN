@@ -16,7 +16,7 @@ public:
 
     double cdf(double z);
 
-    void cal(double start, double end, double freq);
+    void cal(double freq);
 
 };
 
