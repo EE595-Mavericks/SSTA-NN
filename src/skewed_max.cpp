@@ -22,9 +22,6 @@ double skewed_max::phi(double x, double y) {
     return res;
 }
 
-int skewed_max::I(double down, double up, double target) {
-    return target < up && target > down ? 1 : 0;
-}
 
 double skewed_max::joint_pdf(double x, double y) {
     double tau = M_PI / 2 * (X->skewness + 1 / X->skewness) * (Y->skewness + 1 / Y->skewness);
@@ -33,27 +30,26 @@ double skewed_max::joint_pdf(double x, double y) {
     double sigma_x_r = X->stddev * X->skewness;
     double sigma_y_r = Y->stddev * Y->skewness;
 
-    double res = 1 / (tau * X->stddev * Y->stddev) * (
-            phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_l) *
-            I(-DBL_MAX, X->mean, x) *
-            I(-DBL_MAX, Y->mean, y) +
-            phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_r) *
-            I(-DBL_MAX, X->mean, x) *
-            I(Y->mean, DBL_MAX, y) +
-            phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_l) *
-            I(X->mean, DBL_MAX, x) *
-            I(-DBL_MAX, Y->mean, y) +
-            phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_r) *
-            I(X->mean, DBL_MAX, x) *
-            I(Y->mean, DBL_MAX, y)
-    );
+    double res = 0.0;
+
+    if (x < X->mean && y < Y->mean) {
+        res += phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_l);
+    } else if (x < X->mean && y >= Y->mean) {
+        res += phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_r);
+    } else if (x >= X->mean && y < Y->mean) {
+        res += phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_l);
+    } else if (x >= X->mean && y >= Y->mean) {
+        res += phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_r);
+    }
+
+    res *= 1 / (tau * X->stddev * Y->stddev);
     return res;
 }
 
 void skewed_max::cal(double freq) {
 
-    double l_bound = min(X->mean - 3 * X->stddev, Y->mean - 3 * Y->stddev);
-    double r_bound = max(X->mean + 3 * X->stddev, Y->mean + 3 * Y->stddev);
+    double l_bound = min(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
+    double r_bound = max(X->mean + 10 * X->stddev, Y->mean + 10 * Y->stddev);
 
     double x = l_bound;
     double dx = (r_bound - l_bound) / freq;
@@ -69,7 +65,7 @@ void skewed_max::cal(double freq) {
         double cube_y = 0.0;
 
         for (int j = 0; j < freq; j++) {
-            double join = joint_pdf(x, j);
+            double join = joint_pdf(x, y);
             double m = max(x, y);
             one_y += m * join * dy;
             square_y += pow(m, 2) * join * dy;

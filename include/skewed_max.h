@@ -20,8 +20,6 @@ public:
 private:
     double phi(double x, double y);
 
-    int I(double down, double up, double target);
-
     double joint_pdf(double x, double y);
 
 };
