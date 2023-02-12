@@ -10,7 +10,7 @@ public:
 
     distribution();
     distribution(double mean, double variance);
-    virtual void pdf()=0;
-    virtual void cdf()=0;
+    virtual double pdf(double x)=0;
+    virtual double cdf(double x)=0;
 
 };
