@@ -1,5 +1,6 @@
 #include <cmath>
 #include <iostream>
+#include "float.h"
 
 class distribution {
 public:
@@ -9,8 +10,11 @@ public:
     double skewness;
 
     distribution();
+
     distribution(double mean, double variance);
-    virtual double pdf(double x)=0;
-    virtual double cdf(double x)=0;
+
+    virtual double pdf(double x) = 0;
+
+    virtual double cdf(double x) = 0;
 
 };
