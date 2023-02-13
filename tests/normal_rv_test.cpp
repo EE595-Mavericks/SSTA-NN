@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    const int times=1000000;  // number of experiments
+    const int times=5000000;  // number of experiments
 
     double muX = atof(argv[1]);
     double varX = atof(argv[2]);
