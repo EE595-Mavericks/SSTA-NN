@@ -24,3 +24,6 @@ if __name__ == "__main__":
     print("Mean of max(X, Y): {:.5f}".format(mean_max_xy))
     print("Variance of max(X, Y): {:.5f}".format(variance))
     print("Skewness of max(X, Y): {:.5f}".format(skewness))
+
+    with open("result_MC.txt", "a") as f:
+        f.write(f"{format(mean_x, '.5f')} {format(float(sys.argv[2]), '.5f')} {format(mean_y, '.5f')} {format(float(sys.argv[4]), '.5f')} {format(mean_max_xy, '.5f')} {format(variance, '.5f')} {format(skewness, '.5f')}\n")
