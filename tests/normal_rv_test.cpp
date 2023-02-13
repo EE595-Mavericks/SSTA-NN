@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     cube_z = cube_z / times;
 
     variance_z = square_z - pow(mean_z, 2);
-    skewness_z = (cube_z - 3*mean_z*variance_z - pow(mean_z, 2)) / pow(variance_z, 1.5);
+    skewness_z = (cube_z - 3*mean_z*variance_z - pow(mean_z, 3)) / pow(variance_z, 1.5);
 
     cout << mean_z << endl;
     cout << variance_z << endl;
