@@ -28,7 +28,7 @@ def main():
         #     ["python", "normal_rv_test.py", str(mux), str(varx), str(muy),
         #      str(vary)])
         result2 = subprocess.call(
-            ["python", "normal_rv_test.py", str(mux), str(varx), str(muy),
+            ["python3", "normal_rv_test.py", str(mux), str(varx), str(muy),
              str(vary)])
         #print(result.stdout.decode())
 
