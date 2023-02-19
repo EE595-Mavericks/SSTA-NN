@@ -30,10 +30,13 @@ int main(int argc, char *argv[]) {
                   (muX + muY) * a * pdf(alpha);
     double var_z = E_Z2 - pow(E_Z, 2);
 
-    cout << "mu_sum = " << mu_sum << endl;
-    cout << "var_sum = " << var_sum << endl;
-    cout << "mu_max = " << E_Z << endl;
-    cout << "var_max = " << var_z << endl;
+    // cout << "mu_sum = " << mu_sum << endl;
+    // cout << "var_sum = " << var_sum << endl;
+    // cout << "mu_max = " << E_Z << endl;
+    // cout << "var_max = " << var_z << endl;
+
+    printf("%.5f %.5f %.5f %.5f %.5f %.5f\n", muX, varX, muY, varY, E_Z, var_z);
+
 
     return 0;
 }
