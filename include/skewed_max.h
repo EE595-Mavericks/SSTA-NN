@@ -17,11 +17,6 @@ public:
 
     void cal(double freq);
 
-private:
-    double phi(double x, double y);
-
-    double joint_pdf(double x, double y);
-
 };
 
 #endif

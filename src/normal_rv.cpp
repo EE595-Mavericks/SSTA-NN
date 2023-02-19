@@ -8,6 +8,8 @@ normal_rv::normal_rv(double mean, double variance) {
     this->stddev = sqrt(variance);
 }
 
+normal_rv::normal_rv() {}
+
 normal_rv::~normal_rv() {}
 
 double normal_rv::pdf(double x) {

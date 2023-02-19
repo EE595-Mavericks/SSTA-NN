@@ -8,42 +8,11 @@ skewed_max::skewed_max(skewed_rv *x, skewed_rv *y) {
 }
 
 double skewed_max::pdf(double z) {
-
-    return 0;
+    return X->cdf(z) * Y->pdf(z) + Y->cdf(z) * X->pdf(z);
 }
 
 double skewed_max::cdf(double z) {
-
     return 0;
-}
-
-double skewed_max::phi(double x, double y) {
-    double res = exp(-(pow(x, 2) + pow(y, 2)) / 2);
-    return res;
-}
-
-
-double skewed_max::joint_pdf(double x, double y) {
-    double tau = M_PI / 2 * (X->skewness + 1 / X->skewness) * (Y->skewness + 1 / Y->skewness);
-    double sigma_x_l = X->stddev / X->skewness;
-    double sigma_y_l = Y->stddev / Y->skewness;
-    double sigma_x_r = X->stddev * X->skewness;
-    double sigma_y_r = Y->stddev * Y->skewness;
-
-    double res = 0.0;
-
-    if (x < X->mean && y < Y->mean) {
-        res += phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_l);
-    } else if (x < X->mean && y >= Y->mean) {
-        res += phi((x - X->mean) / sigma_x_l, (y - Y->mean) / sigma_y_r);
-    } else if (x >= X->mean && y < Y->mean) {
-        res += phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_l);
-    } else if (x >= X->mean && y >= Y->mean) {
-        res += phi((x - X->mean) / sigma_x_r, (y - Y->mean) / sigma_y_r);
-    }
-
-    res *= 1 / (tau * X->stddev * Y->stddev);
-    return res;
 }
 
 void skewed_max::cal(double freq) {
@@ -51,31 +20,20 @@ void skewed_max::cal(double freq) {
     double l_bound = max(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
     double r_bound = max(X->mean + 10 * X->stddev, Y->mean + 10 * Y->stddev);
 
-    double x = l_bound;
-    double dx = (r_bound - l_bound) / freq;
-    double dy = (r_bound - l_bound) / freq;
+    double z = l_bound;
+    double dz = (r_bound - l_bound) / freq;
     double one = 0.0;
     double square = 0.0;
     double cube = 0.0;
 
     for (int i = 0; i < freq; i++) {
-        double y = l_bound;
-        double one_y = 0.0;
-        double square_y = 0.0;
-        double cube_y = 0.0;
-
-        for (int j = 0; j < freq; j++) {
-            double join = joint_pdf(x, y);
-            double m = max(x, y);
-            one_y += m * join * dy;
-            square_y += pow(m, 2) * join * dy;
-            cube_y += pow(m, 3) * join * dy;
-            y += dy;
+        if (i % 1000 == 0) {
+            cout << z * pdf(z) * dz << endl;
         }
-        one += one_y * dx;
-        square += square_y * dx;
-        cube += cube_y * dx;
-        x += dx;
+        one += z * pdf(z) * dz;
+        square += pow(z, 2) * pdf(z) * dz;
+        cube += pow(z, 3) * pdf(z) * dz;
+        z += dz;
     }
 
     mean = one;

@@ -9,6 +9,8 @@ class normal_rv : public distribution {
 public:
     normal_rv(double mean, double variance);
 
+    normal_rv();
+
     ~normal_rv();
 
     double pdf(double x);
