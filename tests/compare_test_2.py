@@ -14,9 +14,9 @@ def generate_test():
     #pairs = [(random.randint(1, 100), random.randint(1, 100)) for i in range(n)]
     # mux = random.uniform(0, 100)
     mux = 0.0
-    varx = random.uniform(0, 1000)
-    muy = random.uniform(0, 100)
-    vary = random.uniform(0, 1000)
+    varx = random.uniform(0, 1)
+    muy = random.uniform(0, 1)
+    vary = random.uniform(0, 1)
     return mux, varx, muy, vary
 
 def main():
@@ -70,19 +70,19 @@ def main():
         MC_var.append(line.split(' ')[5])
         # MC_skew.append(line.split(' ')[6])
 
-    error_mean = get_error(Num_mean, MC_mean)
-    error_var = get_error(Num_var, MC_var)
-    #error_skew = get_error(Num_skew, MC_skew)
-
-    with open("output.txt", "w") as file:
-        for x, y, z, a, b, c in zip(Num_mean, MC_mean, Num_var, MC_var, Num_skew, MC_skew):
-            file.write(str(x) + " " + str(y) + "     " + str(z) + " " + str(a) + "     " + str(b) + " " + str(c) + "\n")
-
-        file.write("Error for means:" + str(error_mean) + "\n")
-        file.write("Error for vars:" + str(error_var) + "\n")
-        #file.write("Error for skews:" + str(error_skew) + "\n")
-
-    print(Num_skew)
+    # error_mean = get_error(Num_mean, MC_mean)
+    # error_var = get_error(Num_var, MC_var)
+    # #error_skew = get_error(Num_skew, MC_skew)
+    #
+    # with open("output.txt", "w") as file:
+    #     for x, y, z, a, b, c in zip(Num_mean, MC_mean, Num_var, MC_var, Num_skew, MC_skew):
+    #         file.write(str(x) + " " + str(y) + "     " + str(z) + " " + str(a) + "     " + str(b) + " " + str(c) + "\n")
+    #
+    #     file.write("Error for means:" + str(error_mean) + "\n")
+    #     file.write("Error for vars:" + str(error_var) + "\n")
+    #     #file.write("Error for skews:" + str(error_skew) + "\n")
+    #
+    # print(Num_skew)
 
 
 if __name__ == "__main__":
