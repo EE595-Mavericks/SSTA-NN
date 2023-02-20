@@ -16,7 +16,6 @@ int main(int argc, char *argv[]) {
     skewed_rv x(muX, varX, skewX);
     skewed_rv y(muY, varY, skewY);
 
-    x.cal(10000);
     skewed_max z(&x, &y);
 
     z.cal(1000);

@@ -32,7 +32,7 @@ double skewed_rv::pdf(double x) {
 }
 
 double skewed_rv::cdf(double x) {
-    int freq = 100000;
+    int freq = 10000;
 
     double l_bound = mean - 10 * stddev;
     double r_bound = mean + 10 * stddev;
@@ -70,7 +70,7 @@ void skewed_rv::cal(double freq) {
     double v = square - m * m;
     double s = (cube - 3 * m * v - pow(m, 3)) / pow(v, 1.5);
 
-    std::cout << m << " " << v << " " << s << std::endl;
+    // std::cout << m << " " << v << " " << s << std::endl;
 
 }
 

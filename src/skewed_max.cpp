@@ -27,9 +27,6 @@ void skewed_max::cal(double freq) {
     double cube = 0.0;
 
     for (int i = 0; i < freq; i++) {
-        if (i % 1000 == 0) {
-            cout << z * pdf(z) * dz << endl;
-        }
         one += z * pdf(z) * dz;
         square += pow(z, 2) * pdf(z) * dz;
         cube += pow(z, 3) * pdf(z) * dz;
