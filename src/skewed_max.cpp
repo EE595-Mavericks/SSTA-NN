@@ -1,4 +1,5 @@
 #include "skewed_max.h"
+#include <iomanip>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ void skewed_max::cal(double freq) {
 
     for (int i = 0; i < freq; i++) {
         if (i % 50 == 0) {
+            cout << setprecision(5) << fixed;
             cout << "z = " << z << ", f(z) = " << pdf(z) << endl;
         }
         one += z * pdf(z) * dz;
