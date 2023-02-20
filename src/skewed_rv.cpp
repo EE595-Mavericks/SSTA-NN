@@ -16,16 +16,19 @@ skewed_rv::~skewed_rv() {
 }
 
 void skewed_rv::parameter_map(double mean, double variance, double skewness) {
-    double delta_square = (M_PI / 2) * pow(fabs(skewness), 2.0/3.0) / (pow(fabs(skewness), 2.0/3.0) + pow((4-M_PI)/2, 2.0/3.0));
-    double delta = (skewness / fabs(skewness)) * pow(delta_square, 0.5);
-    this->shape = (skewness / fabs(skewness)) * pow(delta_square / (1 - delta_square), 0.5);
+    double delta_square = (M_PI / 2) * pow(fabs(skewness), 2.0 / 3.0) /
+                          (pow(fabs(skewness), 2.0 / 3.0) + pow((4 - M_PI) / 2, 2.0 / 3.0));
+    double delta = pow(delta_square, 0.5);
+    delta = skewness >= 0 ? delta : -delta;
+    this->shape = pow(delta_square / (1 - delta_square), 0.5);
+    this->shape = skewness >= 0 ? this->shape : -this->shape;
     this->scale = pow(variance / (1 - 2 * delta_square / M_PI), 0.5);
     this->location = mean - scale * delta * pow(2 / M_PI, 0.5);
 }
 
 double skewed_rv::pdf(double x) {
     double trans = (x - location) / scale;
-    return (2 / M_PI) * helper_rv.pdf(trans) * helper_rv.cdf(shape * trans);
+    return (2 / scale) * helper_rv.pdf(trans) * helper_rv.cdf(shape * trans);
 }
 
 double skewed_rv::cdf(double x) {
@@ -38,7 +41,7 @@ double skewed_rv::cdf(double x) {
     double cdf = 0.0;
 
     while (t < x) {
-        cdf += pdf(t)*dt;
+        cdf += pdf(t) * dt;
         t += dt;
     }
 
