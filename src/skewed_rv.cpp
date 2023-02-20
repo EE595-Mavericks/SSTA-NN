@@ -5,7 +5,7 @@ skewed_rv::skewed_rv(double mean, double variance, double skewness) {
     this->variance = variance;
     this->stddev = sqrt(variance);
     this->skewness = skewness;
-    parameter_map(mean, variance, skewness);
+    get_parameter(mean, variance, skewness);
 
     // purpose: use pdf and cdf of standard normal distribution to calculate pdf of this skew normal rv
     helper_rv = normal_rv(0, 1);
@@ -15,7 +15,7 @@ skewed_rv::~skewed_rv() {
 
 }
 
-void skewed_rv::parameter_map(double mean, double variance, double skewness) {
+void skewed_rv::get_parameter(double mean, double variance, double skewness) {
     double delta_square = (M_PI / 2) * pow(fabs(skewness), 2.0 / 3.0) /
                           (pow(fabs(skewness), 2.0 / 3.0) + pow((4 - M_PI) / 2, 2.0 / 3.0));
     double delta = pow(delta_square, 0.5);
@@ -73,3 +73,15 @@ void skewed_rv::cal(double freq) {
     std::cout << m << " " << v << " " << s << std::endl;
 
 }
+
+void skewed_rv::get_moment(double location, double scale, double shape) {
+
+    double delta = shape / pow(1 + shape * shape, 0.5);
+    double delta_square = pow(delta, 2);
+    this->mean = location + scale * delta * pow(2 / M_PI, 0.5);
+    this->variance = pow(scale, 2) * (1 - 2 * delta_square / M_PI);
+    this->skewness = (4 - M_PI) / 2 *
+                     pow(delta * pow(2 / M_PI, 0.5), 3) /
+                     pow(1 - 2 * delta_square / M_PI, 1.5);
+}
+

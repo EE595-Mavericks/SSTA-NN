@@ -17,13 +17,13 @@ int main(int argc, char *argv[]) {
     skewed_rv y(muY, varY, skewY);
 
     x.cal(10000);
-    // skewed_max z(&x, &y);
+    skewed_max z(&x, &y);
 
-    // z.cal(10000);
+    z.cal(1000);
 
-    // cout << setprecision(5) << fixed;
-    // cout << x.mean << " " << x.variance << " " << x.skewness << endl;
-    // cout << y.mean << " " << y.variance << " " << y.skewness << endl;
-    // cout << z.mean << " " << z.variance << " " << z.skewness << endl;
+    cout << setprecision(5) << fixed;
+    cout << x.mean << " " << x.variance << " " << x.skewness << endl;
+    cout << y.mean << " " << y.variance << " " << y.skewness << endl;
+    cout << z.mean << " " << z.variance << " " << z.skewness << endl;
 
 }

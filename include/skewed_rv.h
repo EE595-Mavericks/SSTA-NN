@@ -10,7 +10,9 @@ public:
 
     ~skewed_rv();
 
-    void parameter_map(double mean, double variance, double skewness);
+    void get_parameter(double mean, double variance, double skewness);
+
+    void get_moment(double location, double scale, double shape);
 
     double pdf(double x);
 
