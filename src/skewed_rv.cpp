@@ -1,4 +1,7 @@
 #include "skewed_rv.h"
+#include <iomanip>
+
+using namespace std;
 
 skewed_rv::skewed_rv(double mean, double variance, double skewness) {
     this->mean = mean;
@@ -60,6 +63,10 @@ void skewed_rv::cal(double freq) {
     double cube = 0.0;
 
     for (int i = 0; i < freq; i++) {
+        if (i % 50 == 0) {
+            cout << setprecision(5) << fixed;
+            cout << "x = " << z << ", f(x) = " << pdf(z) << endl;
+        }
         one += z * pdf(z) * dz;
         square += pow(z, 2) * pdf(z) * dz;
         cube += pow(z, 3) * pdf(z) * dz;

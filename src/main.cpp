@@ -18,6 +18,8 @@ int main(int argc, char *argv[]) {
 
     skewed_max z(&x, &y);
 
+    x.cal(1000);
+    y.cal(1000);
     z.cal(1000);
 
     cout << setprecision(5) << fixed;
