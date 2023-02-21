@@ -65,8 +65,6 @@ void skewed_rv::cal(double freq, ofstream *ofs) {
     for (int i = 0; i < freq; i++) {
         if (i % 50 == 0) {
             double tmp = pdf(z);
-            cout << setprecision(5) << fixed;
-            cout << "x = " << z << ", f(x) = " << tmp << endl;
             if (ofs != nullptr) {
                 *ofs << z << "," << tmp << endl;
             }

@@ -30,8 +30,6 @@ void skewed_max::cal(double freq, ofstream *ofs) {
     for (int i = 0; i < freq; i++) {
         if (i % 50 == 0) {
             double tmp = pdf(z);
-            cout << setprecision(5) << fixed;
-            cout << "z = " << z << ", f(z) = " << tmp << endl;
             if (ofs != nullptr) {
                 *ofs << z << "," << tmp << endl;
             }
