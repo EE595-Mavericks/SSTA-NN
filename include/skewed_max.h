@@ -19,7 +19,7 @@ public:
 
     double cdf(double z);
 
-    void cal(double freq);
+    void cal(double freq, ofstream *ofs);
 
 };
 

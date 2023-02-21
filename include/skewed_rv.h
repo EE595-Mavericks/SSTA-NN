@@ -18,7 +18,7 @@ public:
 
     double cdf(double x);
     
-    void cal(double freq);
+    void cal(double freq, ofstream *ofs);
 
     normal_rv helper_rv;
 

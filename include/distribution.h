@@ -4,6 +4,9 @@
 #include <cmath>
 #include <iostream>
 #include "float.h"
+#include <fstream>
+
+using namespace std;
 
 class distribution {
 public:

@@ -15,12 +15,15 @@ int main(int argc, char *argv[]) {
 
     skewed_rv x(muX, varX, skewX);
     skewed_rv y(muY, varY, skewY);
-
     skewed_max z(&x, &y);
 
-    x.cal(1000);
-    y.cal(1000);
-    z.cal(1000);
+    ofstream ofs("skewed_max.csv");
+    ofs << "x, f(x)" << endl;
+    x.cal(10000, &ofs);
+    ofs << "y, f(y)" << endl;
+    y.cal(10000, &ofs);
+    ofs << "z, f(z)" << endl;
+    z.cal(10000, &ofs);
 
     cout << setprecision(5) << fixed;
     cout << x.mean << " " << x.variance << " " << x.skewness << endl;

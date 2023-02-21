@@ -16,7 +16,7 @@ double skewed_max::cdf(double z) {
     return 0;
 }
 
-void skewed_max::cal(double freq) {
+void skewed_max::cal(double freq, ofstream *ofs) {
 
     double l_bound = max(X->mean - 10 * X->stddev, Y->mean - 10 * Y->stddev);
     double r_bound = max(X->mean + 10 * X->stddev, Y->mean + 10 * Y->stddev);
@@ -29,8 +29,12 @@ void skewed_max::cal(double freq) {
 
     for (int i = 0; i < freq; i++) {
         if (i % 50 == 0) {
+            double tmp = pdf(z);
             cout << setprecision(5) << fixed;
-            cout << "z = " << z << ", f(z) = " << pdf(z) << endl;
+            cout << "z = " << z << ", f(z) = " << tmp << endl;
+            if (ofs != nullptr) {
+                *ofs << z << "," << tmp << endl;
+            }
         }
         one += z * pdf(z) * dz;
         square += pow(z, 2) * pdf(z) * dz;

@@ -51,7 +51,7 @@ double skewed_rv::cdf(double x) {
     return cdf;
 }
 
-void skewed_rv::cal(double freq) {
+void skewed_rv::cal(double freq, ofstream *ofs) {
 
     double l_bound = mean - 10 * stddev;
     double r_bound = mean + 10 * stddev;
@@ -64,8 +64,12 @@ void skewed_rv::cal(double freq) {
 
     for (int i = 0; i < freq; i++) {
         if (i % 50 == 0) {
+            double tmp = pdf(z);
             cout << setprecision(5) << fixed;
-            cout << "x = " << z << ", f(x) = " << pdf(z) << endl;
+            cout << "x = " << z << ", f(x) = " << tmp << endl;
+            if (ofs != nullptr) {
+                *ofs << z << "," << tmp << endl;
+            }
         }
         one += z * pdf(z) * dz;
         square += pow(z, 2) * pdf(z) * dz;
