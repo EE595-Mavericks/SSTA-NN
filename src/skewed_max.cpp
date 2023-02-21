@@ -27,15 +27,15 @@ void skewed_max::cal(double freq, ofstream *ofs) {
     double cube = 0.0;
 
     for (int i = 0; i < freq; i++) {
+        double tmp = pdf(z);
         if (i % 50 == 0) {
-            double tmp = pdf(z);
             if (ofs != nullptr) {
                 *ofs << z << "," << tmp << endl;
             }
         }
-        one += z * pdf(z) * dz;
-        square += pow(z, 2) * pdf(z) * dz;
-        cube += pow(z, 3) * pdf(z) * dz;
+        one += z * tmp * dz;
+        square += pow(z, 2) * tmp * dz;
+        cube += pow(z, 3) * tmp * dz;
         z += dz;
     }
 
