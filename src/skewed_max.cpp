@@ -1,5 +1,4 @@
 #include "skewed_max.h"
-#include <iomanip>
 
 using namespace std;
 

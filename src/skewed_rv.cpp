@@ -1,5 +1,4 @@
 #include "skewed_rv.h"
-#include <iomanip>
 
 using namespace std;
 
