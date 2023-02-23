@@ -21,6 +21,10 @@ void skewed_rv::get_parameter(double mean, double variance, double skewness) {
     double delta_square = (M_PI / 2) * pow(fabs(skewness), 2.0 / 3.0) /
                           (pow(fabs(skewness), 2.0 / 3.0) + pow((4 - M_PI) / 2, 2.0 / 3.0));
     double delta = pow(delta_square, 0.5);
+    if (delta > 1) {
+        delta = 0.99;
+        delta_square = pow(delta, 2);
+    }
     delta = skewness >= 0 ? delta : -delta;
     this->shape = pow(delta_square / (1 - delta_square), 0.5);
     this->shape = skewness >= 0 ? this->shape : -this->shape;
