@@ -46,10 +46,10 @@ if __name__ == "__main__":
     with open('MC_skew_max.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['MC X mean', 'MC X variance', 'MC X skewness',
-                         'MC Y mean', 'MC Y variance', 'MC Y skewness',
-                         'MC mean', 'MC variance', 'MC skewness',
-                         'mean', 'variance', 'skewness',
+        writer.writerow(['X mean', 'X variance', 'X skewness',
+                         'Y mean', 'Y variance', 'Y skewness',
+                         'MC Z mean', 'MC Z variance', 'MC Z skewness',
+                         'Z mean', 'Z variance', 'Z skewness',
                          'mean error', 'variance error', 'skewness error'])
         for row in rows:
             writer.writerow(row)
