@@ -12,12 +12,12 @@ int main(int argc, char *argv[]) {
     normal_rv x(muX, varX);
     normal_rv y(muY, varY);
     normal_max z(&x, &y);
-    z.cal(10000);
+    z.cal(100);
     // cout << z.mean << endl;
     // cout << z.variance << endl;
     // cout << z.skewness << endl;
 
-    printf("%.5f %.5f %.5f %.5f %.5f %.5f %.5f\n", muX, varX, muY, varY, z.mean, z.variance, z.skewness);
+    printf("%.10f %.10f\n", z.mean, z.variance);
 
     return 0;
 }

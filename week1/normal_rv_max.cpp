@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
     // cout << "mu_max = " << E_Z << endl;
     // cout << "var_max = " << var_z << endl;
 
-    printf("%.5f %.5f %.5f %.5f %.5f %.5f\n", muX, varX, muY, varY, E_Z, var_z);
+    printf("%.10f %.10f\n", E_Z, var_z);
 
 
     return 0;
