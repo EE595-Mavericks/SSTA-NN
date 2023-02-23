@@ -25,6 +25,7 @@ void skewed_max::cal(double freq, ofstream *ofs) {
     double one = 0.0;
     double square = 0.0;
     double cube = 0.0;
+    double total_prob = 0.0;
 
     for (int i = 0; i < freq; i++) {
         double tmp = pdf(z);
@@ -36,9 +37,11 @@ void skewed_max::cal(double freq, ofstream *ofs) {
         one += z * tmp * dz;
         square += pow(z, 2) * tmp * dz;
         cube += pow(z, 3) * tmp * dz;
+        total_prob += tmp * dz;
         z += dz;
     }
 
+    cout << total_prob << " ";
     mean = one;
     variance = square - mean * mean;
     skewness = (cube - 3 * mean * variance - pow(mean, 3)) / pow(variance, 1.5);

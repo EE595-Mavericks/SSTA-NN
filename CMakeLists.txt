@@ -8,5 +8,7 @@ add_library(mylib ${SRC_LIST})
 
 add_executable(main ${SRC_LIST})
 add_executable(normal_rv_num_test tests/normal_rv_num_test.cpp)
+add_executable(skewed_rv_test tests/skewed_rv_test.cpp)
 
 target_link_libraries(normal_rv_num_test mylib)
+target_link_libraries(skewed_rv_test mylib)
