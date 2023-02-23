@@ -11,7 +11,7 @@ from scipy.stats import skewnorm, skew
 def get_sample():
     loc = random.uniform(-10, 10)
     scale = random.uniform(0, 10)
-    a = random.uniform(-10, 10)
+    a = random.uniform(-6.5, 6.5)
 
     samples = skewnorm.rvs(a=a, loc=loc, scale=scale, size=10000)
 
