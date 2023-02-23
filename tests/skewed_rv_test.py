@@ -3,8 +3,6 @@ import random
 import csv
 
 def generate_test():
-    #pairs = [(random.randint(1, 100), random.randint(1, 100)) for i in range(n)]
-    # mux = random.uniform(0, 100)
     mux = 0.0
     varx = random.uniform(0, 100)
     skx = random.uniform(-1, 1)
@@ -18,7 +16,7 @@ if __name__ == "__main__":
     rows = []
 
     for x in range(100):
-        row = list(range(10))
+        row = list(range(11))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
         output = result1.stdout.decode().split(' ')
@@ -32,12 +30,13 @@ if __name__ == "__main__":
         row[7] = float(output[7])
         row[8] = float(output[8])
         row[9] = float(output[9])
+        row[10] = float(output[10])
         rows.append(row)
     
-    with open('../build/skewed_pdf_integral.csv', mode='w', newline='') as file:
+    with open('../build/skewed_bound_pdf.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['integral', 
+        writer.writerow(['l_bound_pdf', 'r_bound_pdf',
                          'x_mean', 'x_variance', 'x_skewness', 
                          'y_mean', 'y_variance', 'y_skewness',
                          'z_mean', 'z_variance', 'z_skewness'])
