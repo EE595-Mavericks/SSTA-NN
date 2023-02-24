@@ -23,7 +23,7 @@ if __name__ == "__main__":
     time_start = time.time()
     rows = []
 
-    for i in range(100):
+    for i in range(300):
         row = list(range(15))
         muX, varX, skeX, x = get_sample()
         muY, varY, skeY, y = get_sample()
@@ -46,11 +46,11 @@ if __name__ == "__main__":
     with open('MC_skew_max.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['X mean', 'X variance', 'X skewness',
-                         'Y mean', 'Y variance', 'Y skewness',
-                         'MC Z mean', 'MC Z variance', 'MC Z skewness',
-                         'Z mean', 'Z variance', 'Z skewness',
-                         'mean error', 'variance error', 'skewness error'])
+        writer.writerow(['X_mean', 'X_variance', 'X_skewness',
+                         'Y_mean', 'Y_variance', 'Y_skewness',
+                         'MC_Z_mean', 'MC_Z_variance', 'MC_Z_skewness',
+                         'Z_mean', 'Z_variance', 'Z_skewness',
+                         'mean_error', 'variance_error', 'skewness_error'])
         for row in rows:
             writer.writerow(row)
 
