@@ -5,17 +5,17 @@ import csv
 def generate_test():
     mux = 0.0
     varx = random.uniform(0, 100)
-    skx = random.uniform(-1, 1)
-    muy = random.uniform(0, 5)
+    skx = random.uniform(-0.99, 0.99)
+    muy = random.uniform(0, 10)
     vary = random.uniform(0, 100)
-    sky = random.uniform(-1, 1)
+    sky = random.uniform(-0.99, 0.99)
     return mux, varx, skx, muy, vary, sky
 
 
 if __name__ == "__main__":
     rows = []
 
-    for x in range(100):
+    for x in range(300):
         row = list(range(11))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
@@ -37,9 +37,9 @@ if __name__ == "__main__":
         writer = csv.writer(file)
 
         writer.writerow(['l_bound_pdf', 'r_bound_pdf',
-                         'x_mean', 'x_variance', 'x_skewness', 
-                         'y_mean', 'y_variance', 'y_skewness',
-                         'z_mean', 'z_variance', 'z_skewness'])
+                         'X_mean', 'X_variance', 'X_skewness', 
+                         'Y_mean', 'Y_variance', 'Y_skewness',
+                         'Z_mean', 'Z_variance', 'Z_skewness'])
         
         for row in rows:
             writer.writerow(row)
