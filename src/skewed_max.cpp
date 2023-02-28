@@ -33,6 +33,13 @@ void skewed_max::cal(double freq, ofstream *ofs) {
                 *ofs << z << "," << tmp << endl;
             }
         }
+        cout << setprecision(10) << fixed;
+        if (i == 0) {
+            cout << tmp << " ";
+        }
+        if (i == freq - 1) {
+            cout << tmp << " ";
+        }
         one += z * tmp * dz;
         square += pow(z, 2) * tmp * dz;
         cube += pow(z, 3) * tmp * dz;
