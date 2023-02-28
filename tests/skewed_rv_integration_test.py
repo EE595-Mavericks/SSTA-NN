@@ -16,7 +16,7 @@ if __name__ == "__main__":
     rows = []
 
     for x in range(300):
-        row = list(range(11))
+        row = list(range(10))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
         output = result1.stdout.decode().split(' ')
@@ -30,13 +30,12 @@ if __name__ == "__main__":
         row[7] = float(output[7])
         row[8] = float(output[8])
         row[9] = float(output[9])
-        row[10] = float(output[10])
         rows.append(row)
     
-    with open('../build/skewed_bound_pdf.csv', mode='w', newline='') as file:
+    with open('../build/skewed_pdf_integral.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['l_bound_pdf', 'r_bound_pdf',
+        writer.writerow(['Z_integral',
                          'X_mean', 'X_variance', 'X_skewness', 
                          'Y_mean', 'Y_variance', 'Y_skewness',
                          'Z_mean', 'Z_variance', 'Z_skewness'])
