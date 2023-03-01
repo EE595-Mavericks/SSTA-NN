@@ -9,8 +9,8 @@ if __name__ == "__main__":
     mean_y = float(sys.argv[3])
     std_y = math.sqrt(float(sys.argv[4]))
 
-    x = np.random.normal(mean_x, std_x, size=1000000)
-    y = np.random.normal(mean_y, std_y, size=1000000)
+    x = np.random.normal(mean_x, std_x, size=10000)
+    y = np.random.normal(mean_y, std_y, size=10000)
 
     # Find the maximum of each sample pair
     max_xy = np.maximum(x, y)
@@ -21,9 +21,14 @@ if __name__ == "__main__":
     # skewness = np.mean(((max_xy - mean_max_xy) / variance) ** 3)
     skewness = skew(max_xy)
 
-    print("Mean of max(X, Y): {:.5f}".format(mean_max_xy))
-    print("Variance of max(X, Y): {:.5f}".format(variance))
-    print("Skewness of max(X, Y): {:.5f}".format(skewness))
+    # print("Mean of max(X, Y): {:.5f}".format(mean_max_xy))
+    # print("Variance of max(X, Y): {:.5f}".format(variance))
+    # print("Skewness of max(X, Y): {:.5f}".format(skewness))
 
-    with open("result_MC.txt", "a") as f:
-        f.write(f"{format(mean_x, '.5f')} {format(float(sys.argv[2]), '.5f')} {format(mean_y, '.5f')} {format(float(sys.argv[4]), '.5f')} {format(mean_max_xy, '.5f')} {format(variance, '.5f')} {format(skewness, '.5f')}\n")
+    print(format(mean_max_xy, '.10f') + ' ' + format(variance, '.10f'))
+    # print(mean_max_xy)
+    # print('{:.10f} {:.10f}'.format(mean_max_xy).format(variance))
+
+    # with open("result_MC.txt", "a") as f:
+    #    f.write(f"{format(mean_x, '.5f')} {format(float(sys.argv[2]), '.5f')} {format(mean_y, '.5f')} {format(float(sys.argv[4]), '.5f')} {format(mean_max_xy, '.5f')} {format(variance, '.5f')} {format(skewness, '.5f')}\n")
+
