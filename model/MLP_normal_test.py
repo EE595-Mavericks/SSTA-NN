@@ -1,5 +1,6 @@
 import torch
 import pandas as pd
+import os
 
 # Define MLP model with fully connected layers
 class MLP(torch.nn.Module):
@@ -24,7 +25,7 @@ model = MLP()
 model.load_state_dict(torch.load("model.pt"))
 
 # Read CSV file for testing
-test_data = pd.read_csv("/Users/yuzhe/Documents/Study/EE595_Software_Design_and_Optimization/Project/Normal-RVs/model/output_v2.csv")
+test_data = pd.read_csv("dataset/output_v2.csv")
 
 # Split data into input and output
 X_test = test_data.iloc[:, :4].values
