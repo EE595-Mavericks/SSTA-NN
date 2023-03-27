@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 # Read CSV file
-data = pd.read_csv("dataset/output.csv")
+data = pd.read_csv("dataset/normal_rv_dataset.csv")
 
 # Split data into input and output
 x = data.iloc[:, :4].values
