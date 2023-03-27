@@ -40,8 +40,8 @@ double skewed_rv::pdf(double x) {
 double skewed_rv::cdf(double x) {
     int freq = 10000;
 
-    double l_bound = mean - 10 * stddev;
-    double r_bound = mean + 10 * stddev;
+    double l_bound = mean - 7 * stddev;
+    double r_bound = mean + 7 * stddev;
     double dt = (r_bound - l_bound) / freq;
     double t = l_bound;
     double cdf = 0.0;

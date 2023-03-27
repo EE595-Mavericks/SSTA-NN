@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
     skewed_rv y(muY, varY, skewY);
     skewed_max z(&x, &y);
 
-    z.cal(1000, nullptr);
+    z.cal(100, nullptr);
 
     cout << setprecision(10) << fixed;
     cout << z.mean << " " << z.variance << " " << z.skewness << endl;
