@@ -16,6 +16,8 @@ class MLP(torch.nn.Module):
                 self.layers.append(torch.nn.ReLU())
             elif activation == "tanh":
                 self.layers.append(torch.nn.Tanh())
+            elif activation == 'sigmoid':
+                self.layers.append(torch.nn.Sigmoid())
 
     def forward(self, x):
         for layer in self.layers:
@@ -78,12 +80,11 @@ def test_module(layers, activation, epoch_num, opt, learning_rate):
 
 
 if __name__ == "__main__":
-    neurons_list = [[4, 8, 5, 3], [4, 6, 5, 4, 3],
-                    [4, 4, 6, 6, 4, 3], [4, 6, 8, 8, 3]]
-    act_list = ['relu', 'tanh']
-    epoch_list = [1000, 10000]
-    opt_list = ['Adam', 'SGD']
-    lr_list = [3e-3, 2e-3, 1e-3, 3e-4, 2e-4, 1e-4]
+    neurons_list = [[4, 6, 8, 16, 8, 3]]
+    act_list = ['tanh']
+    epoch_list = [1000, 5000, 10000]
+    opt_list = ['Adam']
+    lr_list = [0.001, 0.005]
 
     models = list()
 
@@ -98,12 +99,10 @@ if __name__ == "__main__":
               'Error rate of mean', 'Error rate of variance', 'Error rate of skewness']
 
     with open("MLP_result.csv", 'w') as f:
-        # 写入CSV文件
         writer = csv.writer(f)
         writer.writerow(header)
         for [layers, activation, epoch_num, opt, learning_rate] in models:
             errors = test_module(layers, activation, epoch_num, opt, learning_rate)
-            writer.writerow([layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] +
-                            [errors[1]] + [errors[2]])
+            writer.writerow([layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] + [errors[1]] + [errors[2]])
 
         f.close()
