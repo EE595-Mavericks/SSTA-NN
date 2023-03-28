@@ -78,11 +78,12 @@ def test_module(layers, activation, epoch_num, opt, learning_rate):
 
 
 if __name__ == "__main__":
-    neurons_list = [[4, 4, 6, 6, 4, 3], [4, 6, 8, 8, 3]]
+    neurons_list = [[4, 8, 5, 3], [4, 6, 5, 4, 3],
+                    [4, 4, 6, 6, 4, 3], [4, 6, 8, 8, 3]]
     act_list = ['relu', 'tanh']
     epoch_list = [1000, 10000]
     opt_list = ['Adam', 'SGD']
-    lr_list = [1e-3, 1e-4]
+    lr_list = [3e-3, 2e-3, 1e-3, 3e-4, 2e-4, 1e-4]
 
     models = list()
 
@@ -94,7 +95,7 @@ if __name__ == "__main__":
                         models.append([neuron, act, epoch, opt, lr])
 
     header = ['Neurons', 'Activation function', 'Number of EPOCHs', 'Optimization algorithm', 'learning rate',
-              'Error rate output 0', 'Error rate output 1', 'Error rate output 2']
+              'Error rate of mean', 'Error rate of variance', 'Error rate of skewness']
 
     with open("MLP_result.csv", 'w') as f:
         # 写入CSV文件
