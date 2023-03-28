@@ -2,6 +2,7 @@ import torch
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import csv
+import itertools
 
 
 class MLP(torch.nn.Module):
@@ -86,14 +87,8 @@ if __name__ == "__main__":
     opt_list = ['Adam']
     lr_list = [0.001, 0.005]
 
-    models = list()
-
-    for neuron in neurons_list:
-        for act in act_list:
-            for epoch in epoch_list:
-                for opt in opt_list:
-                    for lr in lr_list:
-                        models.append([neuron, act, epoch, opt, lr])
+    parameters = [neurons_list, act_list, epoch_list, opt_list, lr_list]
+    models = list(itertools.product(*parameters))
 
     header = ['Neurons', 'Activation function', 'Number of EPOCHs', 'Optimization algorithm', 'learning rate',
               'Error rate of mean', 'Error rate of variance', 'Error rate of skewness']
@@ -103,6 +98,8 @@ if __name__ == "__main__":
         writer.writerow(header)
         for [layers, activation, epoch_num, opt, learning_rate] in models:
             errors = test_module(layers, activation, epoch_num, opt, learning_rate)
-            writer.writerow([layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] + [errors[1]] + [errors[2]])
+            writer.writerow(
+                [layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] + [errors[1]] + [
+                    errors[2]])
 
         f.close()
