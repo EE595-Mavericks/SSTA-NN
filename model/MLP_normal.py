@@ -1,4 +1,5 @@
 import torch
+from torch.utils.data import DataLoader, TensorDataset
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import csv
@@ -26,21 +27,22 @@ class MLP(torch.nn.Module):
         return x
 
 
-def test_module(layers, activation, epoch_num, opt, learning_rate):
+def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     # Read CSV file
     data = pd.read_csv("dataset/normal_rv_dataset.csv")
 
     # Split data into input and output
     x = data.iloc[:, :4].values
     y = data.iloc[:, 4:].values
-
-    # Split data into training and testing sets
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+    x_train = torch.tensor(x_train, dtype=torch.float32)
+    x_test = torch.tensor(x_test, dtype=torch.float32)
+    y_train = torch.tensor(y_train, dtype=torch.float32)
+    y_test = torch.tensor(y_test, dtype=torch.float32)
 
-    # Define MLP model with fully connected layers
-
-    # Initialize MLP model
     model = MLP(layers, activation)
+    dataset = TensorDataset(x_train, y_train)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     # Define loss function and optimizer
     criterion = torch.nn.MSELoss()
@@ -50,27 +52,38 @@ def test_module(layers, activation, epoch_num, opt, learning_rate):
         optimizer = torch.optim.SGD(model.parameters(), learning_rate)
 
     # Train model
+    res = list()
     for epoch in range(epoch_num):
-        # Forward pass
-        y_pred = model(torch.tensor(x_train, dtype=torch.float32))
-        loss = criterion(y_pred, torch.tensor(y_train, dtype=torch.float32))
+        for i, (batch_x, batch_y) in enumerate(dataloader):
+            # Forward pass
+            y_pred = model(batch_x)
+            loss = criterion(y_pred, batch_y)
 
-        # Backward pass
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+            # Backward pass
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
 
-        # Print training progress
-        if epoch % 1000 == 0:
-            print(f"Epoch {epoch}: loss = {loss.item()}")
+            # Print training progress
+            if epoch % 1000 == 0:
+                print(f"Epoch {epoch}: loss = {loss.item()}")
+
+        if epoch % 100 == 0:
+            y_pred_train = model(x_train)
+            error_rate_train = torch.abs(y_pred_train - y_train) / y_train
+            y_pred_test = model(x_test)
+            error_rate_test = torch.abs(y_pred_test - y_test) / y_test
+            tmp = [epoch]
+            tmp += [torch.mean(error_rate_train[:, i]).item() for i in range(3)]
+            tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(3)]
+            res.append(tmp)
 
     torch.save(model.state_dict(), "model.pt")
 
     # Test model on testing set
     with torch.no_grad():
-        y_pred_test = model(torch.tensor(x_test, dtype=torch.float32))
-        error_rate = torch.abs(y_pred_test - torch.tensor(y_test, dtype=torch.float32)) / torch.tensor(y_test,
-                                                                                                       dtype=torch.float32)
+        y_pred_test = model(x_test)
+        error_rate = torch.abs(y_pred_test - y_test) / y_test
         error_rate_0 = torch.mean(error_rate[:, 0])
         error_rate_1 = torch.mean(error_rate[:, 1])
         error_rate_2 = torch.mean(error_rate[:, 2])
@@ -81,13 +94,38 @@ def test_module(layers, activation, epoch_num, opt, learning_rate):
 
 
 if __name__ == "__main__":
-    neurons_list = [[4, 6, 8, 16, 8, 3]]
-    act_list = ['tanh']
-    epoch_list = [1000, 5000, 10000]
-    opt_list = ['Adam']
-    lr_list = [0.001, 0.005]
+    neurons_list = [
+        [10]
+        # [20],
+        # [50],
+        # [100],
+        # [200],
+        # [500],
+        # [1000],
+        # [2000],
+        # [10, 10],
+        # [20, 20],
+        # [50, 50],
+        # [100, 100],
+        # [200, 200],
+        # [10, 10, 10],
+        # [20, 20, 20],
+        # [50, 50, 50],
+        # [100, 100, 100],
+        # [50, 100, 50],
+        # [50, 200, 50]
+    ]
+    for arr in neurons_list:
+        arr.insert(0, 4)
+        arr.append(3)
 
-    parameters = [neurons_list, act_list, epoch_list, opt_list, lr_list]
+    act_list = ['relu', 'sigmoid', 'tanh']
+    epoch_list = [1000, 5000, 10000]
+    opt_list = ['Adam', 'SGD']
+    lr_list = [0.001, 0.005]
+    batch_sizes = [100]
+
+    parameters = [neurons_list, act_list, epoch_list, opt_list, lr_list, batch_sizes]
     models = list(itertools.product(*parameters))
 
     header = ['Neurons', 'Activation function', 'Number of EPOCHs', 'Optimization algorithm', 'learning rate',
@@ -96,8 +134,8 @@ if __name__ == "__main__":
     with open("MLP_result.csv", 'w') as f:
         writer = csv.writer(f)
         writer.writerow(header)
-        for [layers, activation, epoch_num, opt, learning_rate] in models:
-            errors = test_module(layers, activation, epoch_num, opt, learning_rate)
+        for [layers, activation, epoch_num, opt, learning_rate, batch_size] in models:
+            errors = test_module(layers, activation, epoch_num, opt, learning_rate, batch_size)
             writer.writerow(
                 [layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] + [errors[1]] + [
                     errors[2]])
