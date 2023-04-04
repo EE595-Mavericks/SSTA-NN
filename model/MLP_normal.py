@@ -95,7 +95,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
 if __name__ == "__main__":
     neurons_list = [
-        [10]
+        [10],
         [20],
         [50],
         [100],
