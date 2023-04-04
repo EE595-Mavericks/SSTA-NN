@@ -8,7 +8,7 @@ import itertools
 
 class MLP(torch.nn.Module):
     def __init__(self, layers, activation):
-        super().__init__()
+        super(MLP, self).__init__()
         self.layers = torch.nn.ModuleList()
         for i in range(len(layers) - 1):
             self.layers.append(torch.nn.Linear(layers[i], layers[i + 1]))
@@ -53,7 +53,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
     # Train model
     res = list()
-    for epoch in range(epoch_num):
+    for epoch in range(1, epoch_num + 1):
         for i, (batch_x, batch_y) in enumerate(dataloader):
             # Forward pass
             y_pred = model(batch_x)
@@ -65,8 +65,8 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             optimizer.step()
 
             # Print training progress
-            if epoch % 1000 == 0:
-                print(f"Epoch {epoch}: loss = {loss.item()}")
+            # if epoch % 1000 == 0:
+            #     print(f"Epoch {epoch}: loss = {loss.item()}")
 
         if epoch % 100 == 0:
             y_pred_train = model(x_train)
@@ -78,7 +78,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(3)]
             res.append(tmp)
 
-    torch.save(model.state_dict(), "model.pt")
+    # torch.save(model.state_dict(), "model.pt")
 
     # Test model on testing set
     with torch.no_grad():
@@ -87,40 +87,40 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
         error_rate_0 = torch.mean(error_rate[:, 0])
         error_rate_1 = torch.mean(error_rate[:, 1])
         error_rate_2 = torch.mean(error_rate[:, 2])
-        print(f"Error rate on testing set for output 0: {error_rate_0.item()}")
-        print(f"Error rate on testing set for output 1: {error_rate_1.item()}")
-        print(f"Error rate on testing set for output 2: {error_rate_2.item()}")
-        return [error_rate_0.item(), error_rate_1.item(), error_rate_0.item()]
+        print(f"Error rate on testing set for mean: {error_rate_0.item()}")
+        print(f"Error rate on testing set for variance: {error_rate_1.item()}")
+        print(f"Error rate on testing set for skewness: {error_rate_2.item()}")
+        return res
 
 
 if __name__ == "__main__":
     neurons_list = [
         [10]
-        # [20],
-        # [50],
-        # [100],
-        # [200],
-        # [500],
-        # [1000],
-        # [2000],
-        # [10, 10],
-        # [20, 20],
-        # [50, 50],
-        # [100, 100],
-        # [200, 200],
-        # [10, 10, 10],
-        # [20, 20, 20],
-        # [50, 50, 50],
-        # [100, 100, 100],
-        # [50, 100, 50],
-        # [50, 200, 50]
+        [20],
+        [50],
+        [100],
+        [200],
+        [500],
+        [1000],
+        [2000],
+        [10, 10],
+        [20, 20],
+        [50, 50],
+        [100, 100],
+        [200, 200],
+        [10, 10, 10],
+        [20, 20, 20],
+        [50, 50, 50],
+        [100, 100, 100],
+        [50, 100, 50],
+        [50, 200, 50]
     ]
     for arr in neurons_list:
         arr.insert(0, 4)
         arr.append(3)
 
     act_list = ['relu', 'sigmoid', 'tanh']
-    epoch_list = [1000, 5000, 10000]
+    epoch_list = [5000, 10000]
     opt_list = ['Adam', 'SGD']
     lr_list = [0.001, 0.005]
     batch_sizes = [100]
@@ -128,16 +128,16 @@ if __name__ == "__main__":
     parameters = [neurons_list, act_list, epoch_list, opt_list, lr_list, batch_sizes]
     models = list(itertools.product(*parameters))
 
-    header = ['Neurons', 'Activation function', 'Number of EPOCHs', 'Optimization algorithm', 'learning rate',
-              'Error rate of mean', 'Error rate of variance', 'Error rate of skewness']
+    header = ['Epoch', 'train error mean', 'train error variance', 'train error skewness', 'test error mean',
+              'test error variance', 'test error skewness']
 
-    with open("MLP_result.csv", 'w') as f:
-        writer = csv.writer(f)
-        writer.writerow(header)
-        for [layers, activation, epoch_num, opt, learning_rate, batch_size] in models:
-            errors = test_module(layers, activation, epoch_num, opt, learning_rate, batch_size)
-            writer.writerow(
-                [layers] + [activation] + [epoch_num] + [opt] + [learning_rate] + [errors[0]] + [errors[1]] + [
-                    errors[2]])
+    for [layers, activation, epoch_num, opt, learning_rate, batch_size] in models:
+        name = str([layers, activation, epoch_num, opt, learning_rate, batch_size]) + ".csv"
+        with open(name, 'w') as f:
+            writer = csv.writer(f)
+            writer.writerow(header)
+            res = test_module(layers, activation, epoch_num, opt, learning_rate, batch_size)
+            for row in res:
+                writer.writerow(row)
 
-        f.close()
+            f.close()
