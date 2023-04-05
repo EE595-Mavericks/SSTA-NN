@@ -69,14 +69,15 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             #     print(f"Epoch {epoch}: loss = {loss.item()}")
 
         if epoch % 100 == 0:
-            y_pred_train = model(x_train)
-            error_rate_train = torch.abs(y_pred_train - y_train) / y_train
-            y_pred_test = model(x_test)
-            error_rate_test = torch.abs(y_pred_test - y_test) / y_test
-            tmp = [epoch]
-            tmp += [torch.mean(error_rate_train[:, i]).item() for i in range(3)]
-            tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(3)]
-            res.append(tmp)
+            with torch.no_grad():
+                y_pred_train = model(x_train)
+                error_rate_train = torch.abs(y_pred_train - y_train) / y_train
+                y_pred_test = model(x_test)
+                error_rate_test = torch.abs(y_pred_test - y_test) / y_test
+                tmp = [epoch]
+                tmp += [torch.mean(error_rate_train[:, i]).item() for i in range(3)]
+                tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(3)]
+                res.append(tmp)
 
     # torch.save(model.state_dict(), "model.pt")
 
@@ -95,6 +96,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
 if __name__ == "__main__":
     neurons_list = [
+        [16, 32, 16, 8],
         [10],
         [20],
         [50],
