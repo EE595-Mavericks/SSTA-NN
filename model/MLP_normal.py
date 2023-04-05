@@ -40,7 +40,10 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     y_train = torch.tensor(y_train, dtype=torch.float32)
     y_test = torch.tensor(y_test, dtype=torch.float32)
 
-    model = MLP(layers, activation)
+    # Set device to GPU if available, else CPU
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    model = MLP(layers, activation).to(device)
     dataset = TensorDataset(x_train, y_train)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
@@ -55,6 +58,10 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     res = list()
     for epoch in range(1, epoch_num + 1):
         for i, (batch_x, batch_y) in enumerate(dataloader):
+            # Move the data to the device
+            batch_x = batch_x.to(device)
+            batch_y = batch_y.to(device)
+
             # Forward pass
             y_pred = model(batch_x)
             loss = criterion(y_pred, batch_y)
@@ -70,6 +77,12 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
         if epoch % 100 == 0:
             with torch.no_grad():
+                # Move the data to the device
+                x_train = x_train.to(device)
+                y_train = y_train.to(device)
+                x_test = x_test.to(device)
+                y_test = y_test.to(device)
+
                 y_pred_train = model(x_train)
                 error_rate_train = torch.abs(y_pred_train - y_train) / y_train
                 y_pred_test = model(x_test)
