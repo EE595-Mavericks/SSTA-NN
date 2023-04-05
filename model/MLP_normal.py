@@ -96,6 +96,10 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
     # Test model on testing set
     with torch.no_grad():
+        # Move the data to the device
+        x_test = x_test.to(device)
+        y_test = y_test.to(device)
+        
         y_pred_test = model(x_test)
         error_rate = torch.abs(y_pred_test - y_test) / y_test
         error_rate_0 = torch.mean(error_rate[:, 0])
