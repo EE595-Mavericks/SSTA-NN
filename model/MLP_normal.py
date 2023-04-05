@@ -96,50 +96,54 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
 if __name__ == "__main__":
     neurons_list = [
-        [16, 32, 16, 8],
-        [10],
-        [20],
-        [50],
-        [100],
-        [200],
-        [500],
-        [1000],
-        [2000],
-        [10, 10],
-        [20, 20],
-        [50, 50],
-        [100, 100],
-        [200, 200],
-        [10, 10, 10],
-        [20, 20, 20],
-        [50, 50, 50],
-        [100, 100, 100],
-        [50, 100, 50],
-        [50, 200, 50]
+        [16, 32, 16, 8]
+        # [10],
+        # [20],
+        # [50],
+        # [100],
+        # [200],
+        # [500],
+        # [1000],
+        # [2000],
+        # [10, 10],
+        # [20, 20],
+        # [50, 50],
+        # [100, 100],
+        # [200, 200],
+        # [10, 10, 10],
+        # [20, 20, 20],
+        # [50, 50, 50],
+        # [100, 100, 100],
+        # [50, 100, 50],
+        # [50, 200, 50]
     ]
     for arr in neurons_list:
         arr.insert(0, 4)
         arr.append(3)
 
     act_list = ['relu', 'sigmoid', 'tanh']
-    epoch_list = [5000, 10000]
+    epoch = 10000
     opt_list = ['Adam', 'SGD']
     lr_list = [0.001, 0.005]
     batch_sizes = [100]
 
-    parameters = [neurons_list, act_list, epoch_list, opt_list, lr_list, batch_sizes]
+    parameters = [act_list, opt_list, lr_list, batch_sizes]
     models = list(itertools.product(*parameters))
 
     header = ['Epoch', 'train error mean', 'train error variance', 'train error skewness', 'test error mean',
               'test error variance', 'test error skewness']
+    para_names = ['activation', 'optimization', 'learning rate', 'batch size']
 
-    for [layers, activation, epoch_num, opt, learning_rate, batch_size] in models:
-        name = str([layers, activation, epoch_num, opt, learning_rate, batch_size]) + ".csv"
+    for layers in neurons_list:
+        name = str(layers) + ".csv"
         with open(name, 'w') as f:
             writer = csv.writer(f)
             writer.writerow(header)
-            res = test_module(layers, activation, epoch_num, opt, learning_rate, batch_size)
-            for row in res:
-                writer.writerow(row)
-
+            for [activation, opt, learning_rate, batch_size] in models:
+                writer.writerow(para_names)
+                writer.writerow([activation, opt, learning_rate, batch_size])
+                res = test_module(layers, activation, epoch, opt, learning_rate, batch_size)
+                for row in res:
+                    writer.writerow(row)
+                writer.writerow([''])
             f.close()
