@@ -47,6 +47,12 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     dataset = TensorDataset(x_train, y_train)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
+    # Move the data to the device
+    x_train = x_train.to(device)
+    y_train = y_train.to(device)
+    x_test = x_test.to(device)
+    y_test = y_test.to(device)
+
     # Define loss function and optimizer
     criterion = torch.nn.MSELoss()
     if opt == 'Adam':
@@ -77,12 +83,6 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
         if epoch % 100 == 0:
             with torch.no_grad():
-                # Move the data to the device
-                x_train = x_train.to(device)
-                y_train = y_train.to(device)
-                x_test = x_test.to(device)
-                y_test = y_test.to(device)
-
                 y_pred_train = model(x_train)
                 error_rate_train = torch.abs(y_pred_train - y_train) / y_train
                 y_pred_test = model(x_test)
@@ -96,10 +96,6 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
     # Test model on testing set
     with torch.no_grad():
-        # Move the data to the device
-        x_test = x_test.to(device)
-        y_test = y_test.to(device)
-        
         y_pred_test = model(x_test)
         error_rate = torch.abs(y_pred_test - y_test) / y_test
         error_rate_0 = torch.mean(error_rate[:, 0])
@@ -113,26 +109,28 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
 if __name__ == "__main__":
     neurons_list = [
-        [16, 32, 16, 8]
-        # [10],
-        # [20],
-        # [50],
-        # [100],
-        # [200],
-        # [500],
-        # [1000],
-        # [2000],
-        # [10, 10],
-        # [20, 20],
-        # [50, 50],
-        # [100, 100],
-        # [200, 200],
-        # [10, 10, 10],
-        # [20, 20, 20],
-        # [50, 50, 50],
-        # [100, 100, 100],
-        # [50, 100, 50],
-        # [50, 200, 50]
+        [10],
+        [20],
+        [50],
+        [100],
+        [200],
+        [500],
+        [1000],
+        [2000],
+        [10, 10],
+        [20, 20],
+        [50, 50],
+        [100, 100],
+        [200, 200],
+        [10, 10, 10],
+        [20, 20, 20],
+        [50, 50, 50],
+        [100, 100, 100],
+        [50, 100, 50],
+        [50, 200, 50],
+        # [50, 50, 50, 50],
+        # [50, 100, 100, 50],
+        # [50, 200, 200, 50]
     ]
     for arr in neurons_list:
         arr.insert(0, 4)
@@ -142,7 +140,7 @@ if __name__ == "__main__":
     epoch = 10000
     opt_list = ['Adam', 'SGD']
     lr_list = [0.001, 0.005]
-    batch_sizes = [100]
+    batch_sizes = [50, 100]
 
     parameters = [act_list, opt_list, lr_list, batch_sizes]
     models = list(itertools.product(*parameters))
