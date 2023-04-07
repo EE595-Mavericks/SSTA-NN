@@ -28,30 +28,10 @@ class MLP(torch.nn.Module):
 
 
 def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
-    # Read CSV file
-    data = pd.read_csv("dataset/normal_rv_dataset.csv")
-
-    # Split data into input and output
-    x = data.iloc[:, :4].values
-    y = data.iloc[:, 4:].values
-    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
-    x_train = torch.tensor(x_train, dtype=torch.float32)
-    x_test = torch.tensor(x_test, dtype=torch.float32)
-    y_train = torch.tensor(y_train, dtype=torch.float32)
-    y_test = torch.tensor(y_test, dtype=torch.float32)
-
-    # Set device to GPU if available, else CPU
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     model = MLP(layers, activation).to(device)
     dataset = TensorDataset(x_train, y_train)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
-    # Move the data to the device
-    x_train = x_train.to(device)
-    y_train = y_train.to(device)
-    x_test = x_test.to(device)
-    y_test = y_test.to(device)
 
     # Define loss function and optimizer
     criterion = torch.nn.MSELoss()
@@ -108,25 +88,46 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
 
 
 if __name__ == "__main__":
+    # Read CSV file
+    data = pd.read_csv("dataset/normal_rv_dataset.csv")
+
+    # Split data into input and output
+    x = data.iloc[:, :4].values
+    y = data.iloc[:, 4:].values
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+    x_train = torch.tensor(x_train, dtype=torch.float32)
+    x_test = torch.tensor(x_test, dtype=torch.float32)
+    y_train = torch.tensor(y_train, dtype=torch.float32)
+    y_test = torch.tensor(y_test, dtype=torch.float32)
+
+    # Set device to GPU if available, else CPU
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    # Move the data to the device
+    x_train = x_train.to(device)
+    y_train = y_train.to(device)
+    x_test = x_test.to(device)
+    y_test = y_test.to(device)
+
     neurons_list = [
-        [10],
-        [20],
-        [50],
-        [100],
-        [200],
-        [500],
-        [1000],
-        [2000],
-        [10, 10],
-        [20, 20],
-        [50, 50],
-        [100, 100],
-        [200, 200],
-        [10, 10, 10],
-        [20, 20, 20],
-        [50, 50, 50],
-        [100, 100, 100],
-        [50, 100, 50],
+        # [10],
+        # [20],
+        # [50],
+        # [100],
+        # [200],
+        # [500],
+        # [1000],
+        # [2000],
+        # [10, 10],
+        # [20, 20],
+        # [50, 50],
+        # [100, 100],
+        # [200, 200],
+        # [10, 10, 10],
+        # [20, 20, 20],
+        # [50, 50, 50],
+        # [100, 100, 100],
+        # [50, 100, 50],
         [50, 200, 50],
         # [50, 50, 50, 50],
         # [50, 100, 100, 50],
