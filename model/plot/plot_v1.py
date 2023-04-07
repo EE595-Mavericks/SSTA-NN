@@ -21,13 +21,22 @@ for i, chunk in enumerate(data.groupby(data.index // rows_per_file)):
     # Select the y series to plot
     # if i == 5:
     #     break
-
-    name = chunk[1].iloc[1]["train error mean"] + ' ' + chunk[1].iloc[1]["train error variance"] + ' ' + chunk[1].iloc[1]["train error skewness"]
+    act_func = chunk[1].iloc[1]["Epoch"]
+    opti = chunk[1].iloc[1]["train error mean"]
+    l_rate = chunk[1].iloc[1]["train error variance"]
+    bch_size = chunk[1].iloc[1]["train error skewness"]
+    if opti == 'SGD':
+        continue
+    if bch_size == str(100):
+        continue
+    if l_rate == str(0.005):
+        continue
+    # name = chunk[1].iloc[1]["train error mean"] + ' ' + chunk[1].iloc[1]["train error variance"] + ' ' + chunk[1].iloc[1]["train error skewness"]
+    name = act_func + ' ' + opti + ' ' + l_rate + ' ' + bch_size
     # print(name)
     for a in range(6):
         y_value = chunk[1][error_list[a]].iloc[2:102].astype(float)
         # ax = axes[a%3, a/3]
-        print(name)
         b = int(a/3)
         c = int(a%3)
         ax = axes[b, c]
