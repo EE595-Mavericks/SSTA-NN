@@ -34,7 +34,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
     # Define loss function and optimizer
-    criterion = torch.nn.MSELoss()
+    criterion = torch.nn.MSELoss().to(device)
     if opt == 'Adam':
         optimizer = torch.optim.Adam(model.parameters(), learning_rate)
     elif opt == 'SGD':
@@ -62,6 +62,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             #     print(f"Epoch {epoch}: loss = {loss.item()}")
 
         if epoch % 100 == 0:
+            print(epoch)
             with torch.no_grad():
                 y_pred_train = model(x_train)
                 error_rate_train = torch.abs(y_pred_train - y_train) / y_train
@@ -128,10 +129,10 @@ if __name__ == "__main__":
         # [50, 50, 50],
         # [100, 100, 100],
         # [50, 100, 50],
-        [50, 200, 50],
+        # [50, 200, 50],
         # [50, 50, 50, 50],
         # [50, 100, 100, 50],
-        # [50, 200, 200, 50]
+        [50, 200, 200, 50]
     ]
     for arr in neurons_list:
         arr.insert(0, 4)
