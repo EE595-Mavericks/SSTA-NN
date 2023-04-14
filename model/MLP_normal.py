@@ -57,12 +57,12 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             loss.backward()
             optimizer.step()
 
-            # Print training progress
-            # if epoch % 1000 == 0:
-            #     print(f"Epoch {epoch}: loss = {loss.item()}")
+        # Print training progress
+        # if epoch % 10 == 0:
+        #     print(f"Epoch {epoch}: loss = {loss.item()}")
 
-        if epoch % 100 == 0:
-            print(epoch)
+        if epoch % 3 == 0:
+            # print(epoch)
             with torch.no_grad():
                 y_pred_train = model(x_train)
                 error_rate_train = torch.abs(y_pred_train - y_train) / y_train
@@ -73,7 +73,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
                 tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(3)]
                 res.append(tmp)
 
-    # torch.save(model.state_dict(), "model.pt")
+    torch.save(model.state_dict(), "model.pt")
 
     # Test model on testing set
     with torch.no_grad():
@@ -130,19 +130,25 @@ if __name__ == "__main__":
         # [100, 100, 100],
         # [50, 100, 50],
         # [50, 200, 50],
-        # [50, 50, 50, 50],
+        [50, 50, 50, 50],
         # [50, 100, 100, 50],
-        [50, 200, 200, 50]
+        # [50, 200, 200, 50]
     ]
     for arr in neurons_list:
         arr.insert(0, 4)
         arr.append(3)
 
-    act_list = ['relu', 'sigmoid', 'tanh']
-    epoch = 10000
-    opt_list = ['Adam', 'SGD']
-    lr_list = [0.001, 0.005]
-    batch_sizes = [50, 100]
+    # act_list = ['relu', 'sigmoid', 'tanh']
+    # epoch = 10000
+    # opt_list = ['Adam', 'SGD']
+    # lr_list = [0.001, 0.005]
+    # batch_sizes = [50, 100]
+
+    act_list = ['tanh']
+    epoch = 240
+    opt_list = ['Adam']
+    lr_list = [0.005]
+    batch_sizes = [50]
 
     parameters = [act_list, opt_list, lr_list, batch_sizes]
     models = list(itertools.product(*parameters))
