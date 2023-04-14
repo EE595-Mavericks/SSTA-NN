@@ -1,3 +1,4 @@
+import csv
 import subprocess
 import random
 import os
@@ -25,13 +26,30 @@ def main():
     if os.path.isfile('generate_data.csv'):
         os.remove('generate_data.csv')
 
-    for x in range(5000):
+    rows = []
+    for x in range(10):
         mux, varx, muy, vary = generate_test()
         result1 = subprocess.run(['../build/normal_rv_num_test', str(mux), str(varx), str(muy), str(vary)], stdout=subprocess.PIPE)
 
+        row = list(range(7))
+        output = result1.stdout.decode().split(' ')
+        row[0], row[1], row[2], row[3] = mux, varx, muy, vary
+        row[4] = round(float(output[4]), 10)
+        row[5] = round(float(output[5]), 10)
+        row[6] = round(float(output[6]), 10)
 
-        with open("generate_data.csv", "a") as f:
-            f.write(result1.stdout.decode())
+        # print(result1.stdout.decode())
+
+        rows.append(row)
+
+    with open('generate_data.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+
+        for row in rows:
+            writer.writerow(row)
+
+        # with open("generate_data.csv", "a") as f:
+        #     f.write(result1.stdout.decode())
 
     #result = subprocess.run(['/Users/paradox/vscode/595hw/compute', "1", "1", "1", "1"], stdout=subprocess.PIPE)
 
