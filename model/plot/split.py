@@ -1,3 +1,6 @@
+# split result csv file and output best result csv.
+
+
 import pandas as pd
 import os
 import glob
