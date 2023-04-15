@@ -136,18 +136,18 @@ if __name__ == "__main__":
     para_names = ['activation', 'optimization', 'learning rate', 'batch size']
 
     for layers in neurons_list:
-            for [activation, opt, learning_rate, batch_size] in models:
-                structure = '-'.join(str(x) for x in layers[1:-1])
-                name = structure + '-' + opt + '-' + activation + '-' + str(learning_rate) + '-' + str(batch_size) + ".csv"
-                with open(name, 'w') as f:
-                    writer = csv.writer(f)
-                    writer.writerow(header)
-                    writer.writerow(para_names)
-                    writer.writerow([activation, opt, learning_rate, batch_size])
-                    res = test_module(layers, activation, epoch, opt, learning_rate, batch_size)
-                    for row in res:
-                        writer.writerow(row)
-                    f.close()
-                print(name)
+        for [activation, opt, learning_rate, batch_size] in models:
+            structure = '-'.join(str(x) for x in layers[1:-1])
+            name = structure + '-' + opt + '-' + activation + '-' + str(learning_rate) + '-' + str(batch_size) + ".csv"
+            with open(name, 'w') as f:
+                writer = csv.writer(f)
+                writer.writerow(header)
+                writer.writerow(para_names)
+                writer.writerow([activation, opt, learning_rate, batch_size])
+                res = test_module(layers, activation, epoch, opt, learning_rate, batch_size)
+                for row in res:
+                    writer.writerow(row)
+                f.close()
+            print(name)
 
 
