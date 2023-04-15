@@ -82,7 +82,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
         error_rate_0 = torch.mean(error_rate[:, 0])
         # error_rate_1 = torch.mean(error_rate[:, 1])
         # error_rate_2 = torch.mean(error_rate[:, 2])
-        print(f"Error rate on testing set for mean: {error_rate_0.item()}")
+        print(f"Error rate on testing set for variance: {error_rate_0.item()}")
         # print(f"Error rate on testing set for variance: {error_rate_1.item()}")
         # print(f"Error rate on testing set for skewness: {error_rate_2.item()}")
         return res
