@@ -1,45 +1,45 @@
-# Visualize single figure for every model
-
+import glob
+import os.path
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
-# Define the number of rows per file
-rows_per_file = 103
+# Read all CSV files under folder you choice 
+folder_path = './mean_plot_data'
+file_pattern = '*.csv'
 
-# Read the CSV file into a data frame
-# filenames = ["10-10-10.csv", "20-20-20.csv", "50-50-50.csv", "50-50-50-50.csv", "50-100-50.csv", "50-100-100-"]
-filename = "10-10-10.csv"
-data = pd.read_csv(filename)
+file_paths = glob.glob(os.path.join(folder_path, file_pattern))
 
-# Split the data frame and save each group to a separate CSV file
+file_names = [os.path.basename(file_path) for file_path in file_paths]
 
-error_list = ["train error mean", "train error variance", "train error skewness", "test error mean", "test error variance" , "test error skewness"]
-for i, chunk in enumerate(data.groupby(data.index // rows_per_file)):
-    if i == 5:
-        break
-    structure = filename.split('.')[0]
+for i in range(len(file_paths)):
 
-    act_func = chunk[1].iloc[1]["Epoch"]
-    opti = chunk[1].iloc[1]["train error mean"]
-    l_rate = chunk[1].iloc[1]["train error variance"]
-    bch_size = chunk[1].iloc[1]["train error skewness"]
+    df = pd.read_csv(file_paths[i], skiprows=[1,2])
 
-    head = chunk[1].head
-    epoch = chunk[1]["Epoch"][2:102].astype(int)
+    epoch = df.iloc[:, 0]
+    train_error = df.iloc[:, 1]
+    test_error = df.iloc[:, 2]
 
+    # Create a figure and axes
     fig, ax = plt.subplots()
 
-    name = structure + '-' + opti + '-' + act_func + '-' + l_rate + '-' + bch_size
+    # Plot the train error and test error on the axes
+    ax.plot(epoch, train_error, label='Train Error')
+    ax.plot(epoch, test_error, label='Test Error')
 
-    for a in range(6):
-        y_value = chunk[1][error_list[a]].iloc[2:102].astype(float)
-        ax.plot(epoch, y_value, label=error_list[a])
-
-    ax.set_title(name)
+    # Add a legend to the axes
     ax.legend()
-    plt.savefig(name + '.png')
 
+    # Set the labels for the axes
+    ax.set_xlabel('Epoch')
+    ax.set_ylabel('Error')
 
-    # print(head)
-    # filename = "file_" + str(i) + ".csv"
-    # chunk[1].to_csv(name + '.csv', index=False)
+    ax.set_title(file_names[i].split('.csv')[0])
+
+    plt.yscale('log')
+
+    # save figure under where you want
+    plt.savefig('./figures/' + file_names[i].split('.csv')[0] + '.png')
+
+    # Show the plo
+    # plt.show()
+    plt.close()
