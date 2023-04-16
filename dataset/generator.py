@@ -27,7 +27,7 @@ def main():
         os.remove('generate_data.csv')
 
     rows = []
-    for x in range(10):
+    while len(rows) < 10000:
         mux, varx, muy, vary = generate_test()
         result1 = subprocess.run(['../build/normal_rv_num_test', str(mux), str(varx), str(muy), str(vary)], stdout=subprocess.PIPE)
 
@@ -39,6 +39,8 @@ def main():
         row[6] = round(float(output[6]), 10)
 
         # print(result1.stdout.decode())
+        if row[6] < 1e-3:
+            continue
 
         rows.append(row)
 
