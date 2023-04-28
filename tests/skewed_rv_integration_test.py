@@ -15,7 +15,7 @@ def generate_test():
 if __name__ == "__main__":
     rows = []
 
-    for x in range(10):
+    for x in range(3500):
         row = list(range(10))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         row[7] = float(output[7])
         row[8] = float(output[8])
         row[9] = float(output[9])
-        if row[9] < 0.01:
+        if abs(row[9]) < 0.01:
             continue
         rows.append(row[1:])
     
