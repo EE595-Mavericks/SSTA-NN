@@ -15,8 +15,8 @@ def generate_test():
 if __name__ == "__main__":
     rows = []
 
-    for x in range(3500):
-        row = list(range(10))
+    for x in range(5100):
+        row = list(range(9))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
         output = result1.stdout.decode().split(' ')
@@ -29,10 +29,9 @@ if __name__ == "__main__":
         row[6] = float(output[6])
         row[7] = float(output[7])
         row[8] = float(output[8])
-        row[9] = float(output[9])
-        if abs(row[9]) < 0.01:
+        if abs(row[8]) < 0.001 or row[7] < 0.001:
             continue
-        rows.append(row[1:])
+        rows.append(row)
     
     with open('../build/skewed_dataset.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
