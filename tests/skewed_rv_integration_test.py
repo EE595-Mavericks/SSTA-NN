@@ -4,10 +4,10 @@ import csv
 
 def generate_test():
     mux = 0.0
-    varx = random.uniform(0, 100)
+    varx = random.uniform(0, 1)
     skx = random.uniform(-0.99, 0.99)
-    muy = random.uniform(0, 10)
-    vary = random.uniform(0, 100)
+    muy = random.uniform(0, 1)
+    vary = random.uniform(0, 1)
     sky = random.uniform(-0.99, 0.99)
     return mux, varx, skx, muy, vary, sky
 
@@ -15,7 +15,7 @@ def generate_test():
 if __name__ == "__main__":
     rows = []
 
-    for x in range(300):
+    for x in range(10):
         row = list(range(10))
         mux, varx, skx, muy, vary, sky= generate_test()
         result1 = subprocess.run(['../build/skewed_rv_test', str(mux), str(varx), str(skx), str(muy), str(vary), str(sky),], stdout=subprocess.PIPE)
@@ -30,12 +30,14 @@ if __name__ == "__main__":
         row[7] = float(output[7])
         row[8] = float(output[8])
         row[9] = float(output[9])
-        rows.append(row)
+        if row[9] < 0.01:
+            continue
+        rows.append(row[1:])
     
-    with open('../build/skewed_pdf_integral.csv', mode='w', newline='') as file:
+    with open('../build/skewed_dataset.csv', mode='w', newline='') as file:
         writer = csv.writer(file)
 
-        writer.writerow(['Z_integral',
+        writer.writerow([
                          'X_mean', 'X_variance', 'X_skewness', 
                          'Y_mean', 'Y_variance', 'Y_skewness',
                          'Z_mean', 'Z_variance', 'Z_skewness'])
