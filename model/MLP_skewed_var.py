@@ -178,5 +178,4 @@ if __name__ == "__main__":
                     writer.writerow(row)
                 f.close()
             print(f"\t... training completed {time.time()-t_s}")
-            exit()
 
