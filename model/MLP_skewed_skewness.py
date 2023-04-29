@@ -72,9 +72,9 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
             # print(f"\t Epoch {epoch}/{epoch_num} completed")
             with torch.no_grad():
                 y_pred_train = model(x_train)
-                error_rate_train = torch.abs(y_pred_train - y_train) / y_train
+                error_rate_train = torch.abs(y_pred_train - y_train) / torch.abs(y_train)
                 y_pred_test = model(x_test)
-                error_rate_test = torch.abs(y_pred_test - y_test) / y_test
+                error_rate_test = torch.abs(y_pred_test - y_test) / torch.abs(y_test)
                 tmp = [epoch]
                 tmp += [torch.mean(error_rate_train[:, i]).item() for i in range(1)]
                 tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(1)]
