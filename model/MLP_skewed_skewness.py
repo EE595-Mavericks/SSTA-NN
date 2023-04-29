@@ -85,7 +85,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
     # Test model on testing set
     with torch.no_grad():
         y_pred_test = model(x_test)
-        error_rate = torch.abs(y_pred_test - y_test) / y_test
+        error_rate = torch.abs(y_pred_test - y_test) / torch.abs(y_test)
         error_rate_0 = torch.mean(error_rate[:, 0])
         # error_rate_1 = torch.mean(error_rate[:, 1])
         # error_rate_2 = torch.mean(error_rate[:, 2])
