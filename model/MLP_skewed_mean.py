@@ -80,7 +80,7 @@ def test_module(layers, activation, epoch_num, opt, learning_rate, batch_size):
                 tmp += [torch.mean(error_rate_test[:, i]).item() for i in range(1)]
                 res.append(tmp)
 
-    torch.save(model.state_dict(), f"{name}-skew.pt")
+    torch.save(model.state_dict(), f"{name}-mean.pt")
 
     # Test model on testing set
     with torch.no_grad():
